@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3396" systemVersion="12F37" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="InfoCacheItem" representedClassName="InfoCacheItem" syncable="YES">
+        <attribute name="lastUse" attributeType="Date" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="JiraInfo" syncable="YES">
+        <attribute name="issueId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="issueSubject" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="timer" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Timer" inverseName="jira" inverseEntity="Timer" syncable="YES"/>
+    </entity>
+    <entity name="RedmineInfo" representedClassName="RedmineInfo" syncable="YES">
+        <attribute name="activityId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="activityName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="issueId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="issueSubject" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="timer" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Timer" inverseName="redmine" inverseEntity="Timer" syncable="YES"/>
+    </entity>
+    <entity name="Registration" representedClassName="Registration" syncable="YES">
+        <attribute name="endTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="note" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="startTime" attributeType="Date" syncable="YES"/>
+        <relationship name="registrationTableRow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RegistrationTableRow" inverseName="registrations" inverseEntity="RegistrationTableRow" syncable="YES"/>
+        <relationship name="timerSection" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TimerSection" inverseName="registrations" inverseEntity="TimerSection" syncable="YES"/>
+        <relationship name="timerTableRow" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="TimerTableRow" inverseName="registrations" inverseEntity="TimerTableRow" syncable="YES"/>
+    </entity>
+    <entity name="RegistrationTableRow" representedClassName="RegistrationTableRow" syncable="YES">
+        <relationship name="registrations" toMany="YES" minCount="1" deletionRule="Cascade" destinationEntity="Registration" inverseName="registrationTableRow" inverseEntity="Registration" syncable="YES"/>
+        <relationship name="section" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RegistrationTableSection" inverseName="rows" inverseEntity="RegistrationTableSection" syncable="YES"/>
+        <relationship name="timer" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Timer" inverseName="registrationTableRows" inverseEntity="Timer" syncable="YES"/>
+    </entity>
+    <entity name="RegistrationTableSection" representedClassName="RegistrationTableSection" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="rows" toMany="YES" minCount="1" deletionRule="Cascade" destinationEntity="RegistrationTableRow" inverseName="section" inverseEntity="RegistrationTableRow" syncable="YES"/>
+    </entity>
+    <entity name="Timer" representedClassName="Timer" syncable="YES">
+        <attribute name="creationTime" attributeType="Date" syncable="YES"/>
+        <attribute name="lastResetTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="timerTableSummaryType" attributeType="String" syncable="YES"/>
+        <relationship name="info" toMany="YES" minCount="1" deletionRule="Cascade" destinationEntity="TimerInfo" inverseName="timer" inverseEntity="TimerInfo" syncable="YES"/>
+        <relationship name="jira" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="JiraInfo" inverseName="timer" inverseEntity="JiraInfo" syncable="YES"/>
+        <relationship name="redmine" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="RedmineInfo" inverseName="timer" inverseEntity="RedmineInfo" syncable="YES"/>
+        <relationship name="registrationTableRows" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RegistrationTableRow" inverseName="timer" inverseEntity="RegistrationTableRow" syncable="YES"/>
+        <relationship name="sections" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TimerSection" inverseName="timer" inverseEntity="TimerSection" syncable="YES"/>
+        <relationship name="timerTableRow" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="TimerTableRow" inverseName="timer" inverseEntity="TimerTableRow" syncable="YES"/>
+    </entity>
+    <entity name="TimerInfo" representedClassName="TimerInfo" syncable="YES">
+        <attribute name="index" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+        <relationship name="timer" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Timer" inverseName="info" inverseEntity="Timer" syncable="YES"/>
+    </entity>
+    <entity name="TimerSection" representedClassName="TimerSection" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="registrations" toMany="YES" minCount="1" deletionRule="Cascade" destinationEntity="Registration" inverseName="timerSection" inverseEntity="Registration" syncable="YES"/>
+        <relationship name="timer" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Timer" inverseName="sections" inverseEntity="Timer" syncable="YES"/>
+    </entity>
+    <entity name="TimerTable" representedClassName="TimerTable" syncable="YES">
+        <attribute name="isRunning" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+    </entity>
+    <entity name="TimerTableRow" representedClassName="TimerTableRow" syncable="YES">
+        <attribute name="lastUseTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="registrations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Registration" inverseName="timerTableRow" inverseEntity="Registration" syncable="YES"/>
+        <relationship name="timer" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Timer" inverseName="timerTableRow" inverseEntity="Timer" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="InfoCacheItem" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="JiraInfo" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="RedmineInfo" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Registration" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="RegistrationTableRow" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="RegistrationTableSection" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Timer" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="TimerInfo" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="TimerSection" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="TimerTable" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="TimerTableRow" positionX="0" positionY="0" width="0" height="0"/>
+    </elements>
+</model>
